@@ -1,6 +1,5 @@
 name: nginx_tomcat_jenkins
 modules:
-  load_balancer:
   nginx_tomcat_jenkins:
     type: REPLICA_POOL
     replicaPoolModule:
