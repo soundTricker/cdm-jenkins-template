@@ -1,4 +1,3 @@
-cdm-jenkins-template
+Build Jenkins Instance Template for Google Cloud Deployment Manager 
 ====================
 
-Google Cloud Deployment Manager Jenkins Template

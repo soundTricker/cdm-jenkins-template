@@ -1,0 +1,39 @@
+name: nginx_tomcat_jenkins
+modules:
+  load_balancer:
+  nginx_tomcat_jenkins:
+    type: REPLICA_POOL
+    replicaPoolModule:
+      numReplicas: 1
+      replicaPoolParams:
+        v1beta1:
+          machineType: n1-standard-1
+          zone: asia-east1-a
+          baseInstanceName: nginx
+          disksToCreate:
+            - boot: true
+              initializeParams:
+                sourceImage: https://www.googleapis.com/compute/v1/projects/centos-cloud/global/images/centos-6-v20140718
+                diskSizeGb: 10
+          initAction: install_jenkins
+          networkInterfaces:
+            - network: default
+              accessConfigs:
+                - name: External NAT
+                  type: ONE_TO_ONE_NAT
+      envVariables:
+        JENKINS_HOME:
+          value: /data/jenkins
+actions:
+  install_jenkins:
+    commands: [
+      "yum -y -q update",
+      "yum -y -q install wget tar",
+      "export JENKINS_HOME=$JENKINS_HOME",
+      "%file:java_install.sh",
+      "%file:nginx_setup.sh",
+      "%file:tomcat_setup.sh",
+      "%file:jenkins_setup.sh",
+      "%file:run.sh"
+    ]
+
